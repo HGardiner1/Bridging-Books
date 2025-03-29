@@ -46,7 +46,7 @@ def get_book_info(xml) :
                 result["isbn"] = int(datafield[0].text.strip(" :"))
             if datafield.attrib["tag"] == "650":
                 subjects.add(datafield[0].text)
-
+    result["tags"] = subjects
     print(result)
 
 if __name__ == '__main__':

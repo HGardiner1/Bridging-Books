@@ -16,9 +16,9 @@ headers = {
     "sec-fetch-site": "same-origin",
     "x-requested-with": "XMLHttpRequest"
 }
-start = 1_000_000
+start = 1_500_000
 # Print the response
-while start < 1_500_000:
+while start < 1_750_000:
     # Data
     data = {
         'f': 'RIS',
@@ -27,7 +27,7 @@ while start < 1_500_000:
 
     # Send POST request
     response = requests.get(url, params=data, headers=headers)
-    with open("results.txt", "a", encoding='utf-8') as file:
+    with open("results3.txt", "a", encoding='utf-8') as file:
         file.write(response.text)
     print(start)
     start += 354

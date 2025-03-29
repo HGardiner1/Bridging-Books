@@ -1,3 +1,6 @@
+import xml.etree.ElementTree as ET
+from titlecase import titlecase
+
 def parse_file(filename, start):
     current_id = 0
     id_list = []
@@ -26,6 +29,25 @@ def get_xmls(text_xml_filename):
 
     return xml_list
 
+def get_book_info(xml) :
+    root = ET.fromstring(xml)
+    result = {}
+
+    #Get each book entry
+    record = root[0]
+    subjects = set()
+    for datafield in record:
+        if datafield.attrib:
+            if datafield.attrib["tag"] == "100":
+                result["author"] = datafield[0].text
+            if datafield.attrib["tag"] == "245":
+                result["title"] = titlecase(datafield[0].text)
+            if datafield.attrib["tag"] == "020":
+                result["isbn"] = int(datafield[0].text.strip(" :"))
+            if datafield.attrib["tag"] == "650":
+                subjects.add(datafield[0].text)
+
+    print(result)
 
 if __name__ == '__main__':
     # Example usage
@@ -33,4 +55,10 @@ if __name__ == '__main__':
     # start = 1_000_000
     # parsed_sections = parse_file(filename, start)
     # print(len(parsed_sections))
-    print([len(s) for s in get_xmls("marcxml-results1.txt")])
+
+    # s = get_xmls("marcxml-results2.txt")[0]
+    # with open("samplexml.xml", "w", encoding="utf8") as f:
+    #     f.write(s)
+    with open("samplexml.xml", "r", encoding="utf8") as f:
+        content = f.read()
+    get_book_info(content)

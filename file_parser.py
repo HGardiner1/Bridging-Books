@@ -14,12 +14,23 @@ def parse_file(filename, start):
 
             if line.startswith("ER"):
                 current_id += 1
-
     return id_list
+
+def get_xml_lists(text_xml_filename):
+    xml_list = []
+    with open(text_xml_filename, 'r', encoding='utf-8') as file:
+        content = file.read()
+        search_string = r'<?xml version="1.0" encoding="UTF-8"?>'
+        xml_list = content.split(search_string)
+        xml_list = [search_string + xml for xml in xml_list if xml]
+
+    return xml_list
+
 
 if __name__ == '__main__':
     # Example usage
-    filename = 'results1.txt'
-    start = 1_000_000
-    parsed_sections = parse_file(filename, start)
-    print(len(parsed_sections))
+    # filename = 'results1.txt'
+    # start = 1_000_000
+    # parsed_sections = parse_file(filename, start)
+    # print(len(parsed_sections))
+    print([len(s) for s in get_xml_lists("marcxml-results1.txt")])

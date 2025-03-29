@@ -8,14 +8,52 @@
 </head>
 <body>
 
-    <!-- Navbar container where the navbar will be dynamically loaded -->
     <div id="navbar-container"></div>
 
     <div class="px-6 py-4">
-        <h1>identity page yay </h1>
     </div>
+    <section class="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+        <div class="text-center text-xl font-semibold mb-4">
+            Hi! It's nice to meet you! Tell me a bit about yourself.
+        </div>
 
-    <script src="navbar.js"></script>  <!-- Adjust path to your JavaScript file -->
+        <div class="bg-white p-6 rounded-md shadow-lg w-80">
+            <div class="mb-4">
+                <h2 class="text-lg font-semibold">What do you identify with?</h2>
+            </div>
+            <div class="space-y-4">
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox text-blue-600">
+                    <span>Asian</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox text-blue-600">
+                    <span>Black or African American</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox text-blue-600">
+                    <span>Caucasian</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox text-blue-600">
+                    <span>Hispanic or Latino</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox text-blue-600">
+                    <span>Native American</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox text-blue-600">
+                    <span>Pacific Islander</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox text-blue-600">
+                    <span>Other</span>
+                </label>
+            </div>
+        </div>
+    </section>
+    <script src="navbar.js"></script> 
 
 </body>
 </html>

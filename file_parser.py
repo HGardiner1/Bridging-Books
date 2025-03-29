@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 from titlecase import titlecase
+import re
 
 def parse_file(filename, start):
     current_id = 0
@@ -31,23 +32,24 @@ def get_xmls(text_xml_filename):
 
 def get_book_info(xml) :
     root = ET.fromstring(xml)
-    result = {}
-
     #Get each book entry
-    record = root[0]
-    subjects = set()
-    for datafield in record:
-        if datafield.attrib:
-            if datafield.attrib["tag"] == "100":
-                result["author"] = datafield[0].text
-            if datafield.attrib["tag"] == "245":
-                result["title"] = titlecase(datafield[0].text)
-            if datafield.attrib["tag"] == "020":
-                result["isbn"] = int(datafield[0].text.strip(" :"))
-            if datafield.attrib["tag"] == "650":
-                subjects.add(datafield[0].text)
-    result["tags"] = subjects
-    print(result)
+    for record in root:
+        result = {}
+        subjects = set()
+        for datafield in record:
+            if datafield.attrib:
+                if datafield.attrib["tag"] == "100":
+                    result["author"] = datafield[0].text
+                if datafield.attrib["tag"] == "245":
+                    result["title"] = titlecase(datafield[0].text)
+                if datafield.attrib["tag"] == "020":
+                    result["isbn"] = datafield[0].text
+                if datafield.attrib["tag"] == "650":
+                    subjects.add(datafield[0].text)
+        result["tags"] = subjects
+        print(result)
+
+    
 
 if __name__ == '__main__':
     # Example usage

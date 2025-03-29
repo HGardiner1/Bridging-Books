@@ -5,18 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Bridging Books</title>
+    <style>
+        .typewriter {
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            border-right: .15em solid black;
+            white-space: nowrap;
+            margin: 0 auto;
+            width: auto; 
+            max-width:50%; 
+            animation: typing 4s steps(40) forwards, blink 0.75s step-end infinite;
+        }
+
+        /* Animation for typing */
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Animation for blinking cursor */
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
+
     <header class="bg-blue-600 text-white">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-
             <div class="text-3xl font-bold">Bridging Books</div>
-            
             <nav class="flex space-x-6">
                 <a href="placeholder.html" class="hover:text-yellow-300">Placeholder</a>
                 <a href="mission.html" class="hover:text-yellow-300">Mission</a>
             </nav>
         </div>
     </header>
+
+    <section class="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+        <div id="typewriter-text" class="text-center text-xl font-semibold mb-4 typewriter">
+            Start your next adventure...
+        </div>
+
+        <button class="p-3 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Let's go!
+        </button>
+    </section>
+
 </body>
 </html>

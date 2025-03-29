@@ -16,7 +16,7 @@ def parse_file(filename, start):
                 current_id += 1
     return id_list
 
-def get_xml_lists(text_xml_filename):
+def get_xmls(text_xml_filename):
     xml_list = []
     with open(text_xml_filename, 'r', encoding='utf-8') as file:
         content = file.read()
@@ -33,4 +33,4 @@ if __name__ == '__main__':
     # start = 1_000_000
     # parsed_sections = parse_file(filename, start)
     # print(len(parsed_sections))
-    print([len(s) for s in get_xml_lists("marcxml-results1.txt")])
+    print([len(s) for s in get_xmls("marcxml-results1.txt")])

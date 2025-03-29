@@ -4,14 +4,14 @@ def parse_file(filename, start):
     with open(filename, 'r', encoding='utf-8') as file:
         lines = file.readlines()
         for i, line in enumerate(lines):
-            if line.startswith("TI"):
-                current_id += 1
+            
             if line.startswith('TI') and not "Title not available" in line:
                 id_list.append(current_id + start)
                 if current_id == 1:
                     print(current_id)
                     ind = lines.index(line)
                     print(i, lines[ind])
+            if line.startswith("TI"):
                 current_id += 1
 
     return id_list

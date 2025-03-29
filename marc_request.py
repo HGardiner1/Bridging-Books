@@ -24,14 +24,14 @@ ids = parse_file("results1.txt", start=1_000_000)
 for i in range(0,len(ids), 1):
     # Data
     data = {
-        'f': 'RIS',
+        'f': 'MARCXML',
         'i[]': [f'Solr|{ids[j]}' for j in range(1)]
     }
 
-    query_string = urlencode(data, doseq=True)
-    full_url = url + '?' + query_string
+    # query_string = urlencode(data, doseq=True)
+    # full_url = url + '?' + query_string
     
-    print(full_url)
+    # print(full_url)
 
     # Send POST request
     response = requests.get(url, params=data, headers=headers)

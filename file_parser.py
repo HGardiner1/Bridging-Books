@@ -5,10 +5,12 @@ def parse_file(filename, start):
     # Split by empty newline (double newline)
     id_list = []
     for i, line in enumerate(content):
+        if i == 0:
+            continue
         if "Title not available" in line:
             continue
         else:
-            id_list.append(i + start + 1)
+            id_list.append(i + start - 1)
 
     print(id_list)
     print("Length: ", len(id_list))
@@ -16,6 +18,6 @@ def parse_file(filename, start):
 
 if __name__ == '__main__':
     # Example usage
-    filename = 'results3.txt'
-    start = 1_500_000
+    filename = 'results2.txt'
+    start = 1_250_000
     parsed_sections = parse_file(filename, start)

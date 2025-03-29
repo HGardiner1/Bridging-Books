@@ -19,13 +19,14 @@ headers = {
     "x-requested-with": "XMLHttpRequest"
 }
 
-ids = parse_file("results2.txt", start=1_250_000)
+ids = parse_file("results1.txt", start=1_000_000)
 # Print the response
-for i in range(0,len(ids), 10):
+step = 1
+for i in range(0,len(ids), step):
     # Data
     data = {
         'f': 'MARCXML',
-        'i[]': [f'Solr|{ids[j+i]}' for j in range(10)]
+        'i[]': [f'Solr|{ids[j+i]}' for j in range(step)]
     }
 
     # query_string = urlencode(data, doseq=True)
@@ -34,6 +35,8 @@ for i in range(0,len(ids), 10):
 
     # Send POST request
     response = requests.get(url, params=data, headers=headers)
+    if 'error' in response.text.lower():
+        print(ids[i])
     with open("marcxml-results1.txt", "a+", encoding='utf-8') as file:
         file.write(response.text)
     print(ids[i])

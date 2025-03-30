@@ -24,6 +24,6 @@ document.getElementById('nextBtn').addEventListener('click', function(event) {
         currentForm = "genres"; 
     } else {
         selectedGenres = getSelectedOptions('genresForm');
-        window.location.href = "results-page/results.html"; 
+        window.location.href = "results-page/resultswindow.html"; 
     }
 });

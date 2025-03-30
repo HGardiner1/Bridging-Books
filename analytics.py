@@ -29,5 +29,7 @@ with open("main_json.json") as file:
     books = dict["books"]
 
 result = get_books_by_tag("FROG", books)
+print(result[0])
 
-print(result)
+# for frog_book in result:
+#      print(get_cover_from_book(frog_book))

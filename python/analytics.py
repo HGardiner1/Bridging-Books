@@ -13,7 +13,9 @@ ADULT_BOOK_LENGTH = 150
 
 ROMANCE_TAGS = ["Romance", "Relationship"]
 MYSTERY_TAGS = ["Mystery", "Thriller"]
-
+SCIENCE_FICTION_TAGS = ["Science fiction"]
+NONFICTION_GENRE = ["Biography"]
+NONFICTION_TAG = ["History"]
 
 
 def get_books_by_tag(tag: str, book_list) :

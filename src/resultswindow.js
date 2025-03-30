@@ -1,11 +1,15 @@
+
+
 document.addEventListener('DOMContentLoaded', function() {
     // Use fetch to load the JSON file
     const bookContainer = document.getElementById('book-container');
     fetch('../main.json')  // Adjust the path if necessary to point to the correct folder
       .then(response => response.json())
       .then(books => {
-        books['books'].slice(170000,170000+10).forEach((book) => {
-        // Create a card container
+        books = getBooksByTags(TAGS_WE_WANT, books)
+        books = getBooksByGenres(GENRES_WE_WANT, books)
+        books.forEach(book => {
+            // Create a card container
         const card = document.createElement('div');
         card.className = "bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow";
 
@@ -48,3 +52,26 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .catch(error => console.error('Error loading the books:', error));
 });
+
+function getBooksByTags(tags, bookList) {
+    const lowerTags = tags.map(tag => tag.toLowerCase());
+    return bookList.filter(book => 
+      book.tags && book.tags.some(bookTag => 
+        lowerTags.some(tag => bookTag.toLowerCase().includes(tag))
+      )
+    );
+  }
+  
+  function getBooksByGenres(genres, bookList) {
+    const lowerGenres = genres.map(genre => genre.toLowerCase());
+    return bookList.filter(book => 
+      book.genre && book.genre.some(bookGenre => 
+        lowerGenres.some(genre => bookGenre.toLowerCase().includes(genre))
+      )
+    );
+  }
+  
+  function getBooksOverLength(pageCount, bookList) {
+    return bookList.filter(book => book.page_count && book.page_count >= pageCount);
+  }
+  

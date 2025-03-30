@@ -99,7 +99,7 @@
                     </label>
                     <label class="flex items-center space-x-2">
                         <input type="checkbox" class="form-checkbox text-blue-600">
-                        <span>Documentary</span>
+                        <span>Biography</span>
                     </label>
                     <label class="flex items-center space-x-2">
                         <input type="checkbox" class="form-checkbox text-blue-600">
@@ -161,7 +161,7 @@
         
             // --- Genres Section ---
             // Assuming the checkboxes are in the order:
-            // 0: Mystery, 1: Science Fiction, 2: Documentary, 3: Romance, 4: Thriller
+            // 0: Mystery, 1: Science Fiction, 2: Biography, 3: Romance, 4: Thriller
             const genreCheckboxes = document.querySelectorAll('#genresForm input[type="checkbox"]');
             if (genreCheckboxes[0] && genreCheckboxes[0].checked) {
                 userGenres = userGenres.concat(MYSTERY_TAGS);
@@ -175,6 +175,8 @@
                 userGenres.push("History");
                 userGenres.push("Biography");
                 
+                // For Biography, no constant exists so add the string directly.
+                userGenres.push("Biography");
             }
             if (genreCheckboxes[3] && genreCheckboxes[3].checked) {
                 userGenres = userGenres.concat(ROMANCE_TAGS);

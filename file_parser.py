@@ -91,7 +91,7 @@ def build_json(xml_txt_filename):
     return final_json_dict
 
 if __name__ == '__main__':
-    j = build_json("marcxml-result1.txt")
-    with open("final_json.json", "w", encoding='utf-8') as file:
+    j = build_json("marcxml-result2.txt")
+    with open("final_json2.json", "w", encoding='utf-8') as file:
         file.write(json.dumps(j, indent=4))
     

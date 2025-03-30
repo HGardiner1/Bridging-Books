@@ -72,14 +72,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function getBooksByTags(tags, bookList) {
-    if (tags.length == 0) {
+    if (!tags | tags.length == 0) {
         return bookList
     }
     const lowerTags = tags.map(tag => tag.toLowerCase());
     return bookList.filter(book => 
-      book.tags && book.tags.some(bookTag => 
-        lowerTags.some(tag => bookTag.toLowerCase().includes(tag))
-      )
+      book.tags && (book.tags.some(bookTag => 
+        lowerTags.some(tag => bookTag.toLowerCase().includes(tag))))
     );
   }
   
@@ -89,7 +88,7 @@ function getBooksByTags(tags, bookList) {
     }
     const lowerGenres = genres.map(genre => genre.toLowerCase());
     return bookList.filter(book => 
-      book.genre && book.genre.some(bookGenre => 
+      book.genre, book.tag && book.genre.some(bookGenre => 
         lowerGenres.some(genre => bookGenre.toLowerCase().includes(genre))
       )
     );

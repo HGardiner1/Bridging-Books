@@ -1,8 +1,13 @@
-TAGS_WE_WANT = ["african american"];
-GENRES_WE_WANT = ["fiction"];
-
+// const hosting_url = "https://drive.usercontent.google.com/download?id=1nfYv4TtohLoYH-QVBpSGP0unbT6k6xCm&id=xxxxxx&confirm=yes";
 document.addEventListener('DOMContentLoaded', function() {
     // Use fetch to load the JSON file
+
+    const storedUserTags = JSON.parse(localStorage.getItem('userTags'));
+    const storedUserGenres = JSON.parse(localStorage.getItem('userGenres'));
+
+    TAGS_WE_WANT = storedUserTags;
+    GENRES_WE_WANT = storedUserGenres;
+
     const bookContainer = document.getElementById('book-container');
     const loadingElement = document.getElementById('loading-container');
     title = document.getElementById('title');
@@ -11,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(booksData => {  // Use consistent variable name (booksData)
         let books = booksData.books;  // Make sure books is declared and booksData structure is correct
         books = getBooksByTags(TAGS_WE_WANT, books);
-        books = getBooksByGenres(GENRES_WE_WANT, books);
+        books = getBooksByTags(GENRES_WE_WANT, books);
         books = books.slice(0, 20);
         books.forEach(book => {
             // Create a card container

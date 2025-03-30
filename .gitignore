@@ -1,3 +1,5 @@
 *.txt
 *.pyc
 *.json
+intermediate_media/
+file_hosting/

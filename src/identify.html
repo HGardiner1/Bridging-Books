@@ -121,25 +121,103 @@
     </section>
 
     <script>
-        let currentForm = "identity"; 
+        let currentForm = "identity";
+        // Define your constants
+        const ASIAN_AMERICAN_TAGS = ["Asian American", "Asians", "Chinese Americans", "Japanese Americans", "Indian Americans", "Korean Americans"];
+        const AFRICAN_AMERICAN_TAGS = ["African American"];
+        const LATIN_AMERICAN_TAGS = ["Hispanic", "Latin American", "Mexican American", "Guatemalans", "Peruvians", "Brazilian American", "Puerto Ricans", "Cuban American", "Dominican Americans"];
+        const AMERICAN_INDIAN_TAGS = ["Indians of North America"];
         
+        const MYSTERY_TAGS = ["Mystery", "Thriller"];
+        const SCIENCE_FICTION_TAGS = ["Science fiction"];
+        const ROMANCE_TAGS = ["Romance", "Relationship"];
+        // (If needed, add more constants for other genres)
+        
+        // This function collects the selected checkboxes,
+        // converts them to tags based on the constants,
+        // stores them in localStorage, and logs them.
+        function saveUserPreferences() {
+            let userTags = [];
+            let userGenres = [];
+            
+            // --- Identity Section ---
+            // Assuming the checkboxes are in the order:
+            // 0: Asian, 1: Black or African American, 2: Caucasian, 3: Hispanic or Latino, 4: Native American, 5: Other
+            const identityCheckboxes = document.querySelectorAll('#identityForm input[type="checkbox"]');
+            if (identityCheckboxes[0] && identityCheckboxes[0].checked) {
+                userTags = userTags.concat(ASIAN_AMERICAN_TAGS);
+            }
+            if (identityCheckboxes[1] && identityCheckboxes[1].checked) {
+                userTags = userTags.concat(AFRICAN_AMERICAN_TAGS);
+            }
+            // For Caucasian, no associated tag is defined so we skip it.
+            if (identityCheckboxes[3] && identityCheckboxes[3].checked) {
+                userTags = userTags.concat(LATIN_AMERICAN_TAGS);
+            }
+            if (identityCheckboxes[4] && identityCheckboxes[4].checked) {
+                userTags = userTags.concat(AMERICAN_INDIAN_TAGS);
+            }
+            // 'Other' can be handled later (e.g. prompting a custom input)
+        
+            // --- Genres Section ---
+            // Assuming the checkboxes are in the order:
+            // 0: Mystery, 1: Science Fiction, 2: Documentary, 3: Romance, 4: Thriller
+            const genreCheckboxes = document.querySelectorAll('#genresForm input[type="checkbox"]');
+            if (genreCheckboxes[0] && genreCheckboxes[0].checked) {
+                userGenres = userGenres.concat(MYSTERY_TAGS);
+            }
+            if (genreCheckboxes[1] && genreCheckboxes[1].checked) {
+                userGenres = userGenres.concat(SCIENCE_FICTION_TAGS);
+            }
+            if (genreCheckboxes[2] && genreCheckboxes[2].checked) {
+                // For Documentary, no constant exists so add the string directly.
+                userGenres.push("Documentary");
+            }
+            if (genreCheckboxes[3] && genreCheckboxes[3].checked) {
+                userGenres = userGenres.concat(ROMANCE_TAGS);
+            }
+            if (genreCheckboxes[4] && genreCheckboxes[4].checked) {
+                // Thriller is already included in MYSTERY_TAGS.
+                // But if the user checked Thriller separately (and Mystery wasn’t checked), add it.
+                if (!userGenres.includes("Thriller")) {
+                    userGenres.push("Thriller");
+                }
+            }
+            
+            // Remove duplicate tags
+            userTags = Array.from(new Set(userTags));
+            userGenres = Array.from(new Set(userGenres));
+            
+            // Store in localStorage
+            localStorage.setItem('userTags', JSON.stringify(userTags));
+            localStorage.setItem('userGenres', JSON.stringify(userGenres));
+            
+            // Log the stored tags
+            console.log('userTags:', userTags);
+            console.log('userGenres:', userGenres);
+        }
+        
+        // In your navigation logic, call saveUserPreferences() when the user clicks "Submit"
         document.getElementById('nextBtn').addEventListener('click', function(event) {
-            event.preventDefault(); 
+            event.preventDefault();
             if (currentForm === "identity") {
                 document.getElementById('identityForm').classList.remove('active');
                 document.getElementById('readingLevelForm').classList.add('active');
-                currentForm = "readingLevel"; 
-                document.getElementById('nextBtn').textContent = "Next"; 
+                currentForm = "readingLevel";
+                document.getElementById('nextBtn').textContent = "Next";
             } else if (currentForm === "readingLevel") {
                 document.getElementById('readingLevelForm').classList.remove('active');
                 document.getElementById('genresForm').classList.add('active');
-                currentForm = "genres"; 
-                document.getElementById('nextBtn').textContent = "Submit"; 
+                currentForm = "genres";
+                document.getElementById('nextBtn').textContent = "Submit";
             } else {
-                window.location.href = "resultswindow.html"; 
+                // Save preferences and then navigate to results window.
+                saveUserPreferences();
+                window.location.href = "resultswindow.html";
             }
         });
-    </script>
+        </script>
+        
 
     <script src="navbar.js"></script> 
    

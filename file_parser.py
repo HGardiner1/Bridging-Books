@@ -87,15 +87,19 @@ def get_book_infos(xml) :
         books.append(result)
     return books
 
-def get_cover(author: str, title: str, isbn: str, lib_id: int):
+def get_cover(author: str, title: str, lib_id: int, isbn:str=None):
     author_encoded = parse.quote_plus(author)
     title_encoded = parse.quote_plus(title)
-    return f"https://hestia.jmrl.org/findit/Cover/Show?&size=large&recordid={lib_id}&source=Solr&isbn={isbn}&author={author_encoded}&title={title_encoded}"
+    if isbn:
+        return f"https://hestia.jmrl.org/findit/Cover/Show?&size=large&recordid={lib_id}&source=Solr&isbn={isbn}&author={author_encoded}&title={title_encoded}"
+    else:
+        return f"https://hestia.jmrl.org/findit/Cover/Show?&size=large&recordid={lib_id}&source=Solr&author={author_encoded}&title={title_encoded}"
 
 def get_cover_from_book(book):
     if book["isbn"]:
-        get_cover(book["author"], book["title"], book["isbn"], book["lib_id"])
-
+        return get_cover(book["author"], book["title"], book["lib_id"], book["isbn"])
+    else:
+        return get_cover(book["author"], book["title"], book["lib_id"])
 def build_json(xml_txt_filename):
     final_json_dict = {'books':[]}
     for i, xml_string in enumerate(get_xmls(xml_txt_filename)):
@@ -122,7 +126,7 @@ def complete_genre_list(book_list):
     return [tag for book in book_list if book['genre'] for tag in book['genre']]
 
 
-if __name__ == '__main__':
-    with open('main.json', 'w') as file:
-        json.dump(build_jsons(['marcxml-results1.txt', 'marcxml-results2.txt', 'marcxml-results3.txt']), file, indent=4)
+# if __name__ == '__main__':
+#     with open('main.json', 'w') as file:
+#         json.dump(build_jsons(['marcxml-results1.txt', 'marcxml-results2.txt', 'marcxml-results3.txt']), file, indent=4)
     

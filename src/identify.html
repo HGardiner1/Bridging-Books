@@ -172,6 +172,9 @@
             if (genreCheckboxes[2] && genreCheckboxes[2].checked) {
                 // For Documentary, no constant exists so add the string directly.
                 userGenres.push("Documentary");
+                userGenres.push("History");
+                userGenres.push("Biography");
+                
             }
             if (genreCheckboxes[3] && genreCheckboxes[3].checked) {
                 userGenres = userGenres.concat(ROMANCE_TAGS);

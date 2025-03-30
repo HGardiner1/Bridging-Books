@@ -8,7 +8,7 @@ def get_ids_by_tag(tag: str, book_list) :
             ids.append(book["lib_id"])
     return ids
 
-with open("final_json2.json") as file:
+with open("main_json.json") as file:
     dict = json.load(file)
     books = dict["books"]
 

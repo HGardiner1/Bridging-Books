@@ -80,6 +80,9 @@ def get_cover(author: str, title: str, isbn: str, lib_id: int):
     title_encoded = parse.quote_plus(title)
     return f"https://hestia.jmrl.org/findit/Cover/Show?&size=large&recordid={lib_id}&source=Solr&isbn={isbn}&author={author_encoded}&title={title_encoded}"
 
+def get_cover_from_book(book):
+    get_cover(book["author"], book["title"], book["isbn"], book["lib_id"])
+
 def build_json(xml_txt_filename):
     final_json_dict = {'books':[]}
     for xml_string in get_xmls(xml_txt_filename):

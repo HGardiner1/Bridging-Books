@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 from urllib import parse
 from titlecase import titlecase # type: ignore
 import re
+import roman
 
 def parse_file(filename, start):
     current_id = 0
@@ -43,10 +44,12 @@ def get_xmls(text_xml_filename):
     
     return xml_list
 
+page_formatting_stats = {'checked_exceptions': [], 'unchecked_exceptions': []}
 def get_book_infos(xml) :
     root = ET.fromstring(xml)
     books = []
     #Get each book entry
+    non_paged_keywords = ['volume', 'disc', 'unpaged', 'sound', 'audio', '1 online resource.', 'pages cm']
     for record in root:
         result = {}
         subjects = set()
@@ -54,16 +57,37 @@ def get_book_infos(xml) :
         for datafield in record:
             if not datafield.attrib:
                 continue
-            if datafield.attrib["tag"] == "300":
+            if datafield.attrib["tag"] == "300" and all(word not in datafield[0].text for word in non_paged_keywords):
                 # example string "7 pages"
-                cleaned = datafield[0].text.replace("unnumbered ", '')
-                end_of_number_str = cleaned.split(" pages")[0]
-                
-                beginning_of_number_ind = end_of_number_str.rindex(" ")+1 if " " in end_of_number_str else 0
+                cleaned = datafield[0].text.lower().replace("unnumbered", '').replace(",", "").replace('(', '').strip()
 
+                delim = 'pages'
+                if 'pages' in cleaned:
+                    delim = "pages"
+                elif 'p.' in cleaned:
+                    delim = "p."
+                elif 'leaves' in cleaned:
+                    delim = "leaves"
+
+                page_formatting_stats[delim] = page_formatting_stats.get(delim, 0) + 1
+                
+                end_of_number_str = cleaned.split(delim)[0].strip()
+                beginning_of_number_ind = end_of_number_str.rindex(" ")+1 if " " in end_of_number_str else 0
                 number_string = end_of_number_str[beginning_of_number_ind:]
+                number_string = number_string.split('-')[-1] # take the second value if in a range
+                number_string = number_string.replace('.', '') # remove decimal values
+
                 if number_string.isnumeric():
                     result["page_count"] = int(number_string)
+                elif number_string.isalpha() and set(number_string.lower()) <= {'i','v','x','l','c','d','m'}:
+                    result["page_count"] = roman.fromRoman(number_string)
+                    page_formatting_stats['romans'] = page_formatting_stats.get('romans', 0) + 1
+                elif delim == 'leaves' and 'page_count' in result: # leaves support
+                    result["page_count"] *= 2
+                else:
+                   page_formatting_stats['unchecked_exceptions'].append(datafield[0].text)
+            elif datafield.attrib["tag"] == "300":
+                page_formatting_stats['checked_exceptions'].append(datafield[0].text)
             if datafield.attrib["tag"] == "100":
                 result["author"] = datafield[0].text
             if datafield.attrib["tag"] == "245":
@@ -104,6 +128,8 @@ def build_json(xml_txt_filename):
     final_json_dict = {'books':[]}
     for i, xml_string in enumerate(get_xmls(xml_txt_filename)):
         print(i)
+        print(len(page_formatting_stats))
+        print('='*5)
         book_infos = get_book_infos(xml_string)
         for book in book_infos:
             book['tags'] = list(book['tags']) if 'tags' in book else None
@@ -125,6 +151,8 @@ def complete_tag_list(book_list):
 def complete_genre_list(book_list):
     return [tag for book in book_list if book['genre'] for tag in book['genre']]
 
+def get_all_page_counts(book_list):
+    return [book['page_count'] for book in book_list if book['page_count']]
 
 # if __name__ == '__main__':
 #     with open('main.json', 'w') as file:

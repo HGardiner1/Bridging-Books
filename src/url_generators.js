@@ -1,7 +1,7 @@
 
 
 
-function generateLibkUrl(book) {
+function generateLibUrl(book) {
     if (!book) {
       throw new Error("Invalid book object or missing lib_id");
     }
@@ -14,7 +14,7 @@ function generateImageUrl(book) {
     if (!book) {
         throw new Error("Invalid book object or missing lib_id");
     }
-    
+
     author_encoded = encodeURIComponent(book.author);
     title_encoded = encodeURIComponent(book.title);
     if (book.isbn) {

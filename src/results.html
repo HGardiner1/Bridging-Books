@@ -3,13 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Identity</title>
+    <title>Book Results</title>
+    <link rel="stylesheet" href="results.css">
     <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS CDN -->
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .book-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .books {
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+            overflow: hidden;
+        }
+        .book-img {
+            width: 100%;
+            max-width: 100px;
+            margin: 1.5em;
+            border-radius: 3px;
+            transition: transform 1s;
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        }
+        .descp {
+            margin: 1.5em;
+            padding: 1em;
+        }
+    </style>
 </head>
 <body>
 
     <div id="navbar-container"></div>
     <script src="navbar.js"></script> 
+
+    <div class="book-container" id="bookContainer"></div>
+
+    <!-- Replace the individual books with a list of randomly generated ones-->
+    <script>
+        
+        const books = [
+            {
+                title: "After You",
+                author: "Jojo Moyes",
+                image: "https://images-na.ssl-images-amazon.com/images/I/718ReYbwlFL.jpg",
+                description: "It continues the story of Louisa Clark after Will's death. She is trying to move on."
+            },
+            {
+                title: "Big Magic",
+                author: "Elizabeth Gilbert",
+                image: "https://images-na.ssl-images-amazon.com/images/I/91JxVjINNsL.jpg",
+                description: "Readers of all ages and walks of life have drawn inspiration from Elizabeth Gilbert’s books."
+            },
+            {
+                title: "A Tale for the Time Being",
+                author: "Ruth Ozeki",
+                image: "https://images-na.ssl-images-amazon.com/images/I/9129dzchsGL.jpg",
+                description: "In Tokyo, sixteen-year-old Nao has decided there’s only one escape from her aching loneliness."
+            },
+            {
+                title: "The Great Gatsby",
+                author: "F. Scott Fitzgerald",
+                image: "https://images-na.ssl-images-amazon.com/images/I/81djg0KWthS.jpg",
+                description: "The novel was inspired by a youthful romance Fitzgerald had with socialite Ginevra King."
+            },
+        ];
+
+        const colors = ['#cbb5e2', '#fbadaf', '#a4e0eb', '#fdca95'];
+        const bookContainer = document.getElementById('bookContainer');
+
+        books.forEach((book, index) => {
+            const bookDiv = document.createElement('div');
+            bookDiv.className = 'books';
+            bookDiv.style.backgroundColor = colors[index % colors.length];
+            bookDiv.innerHTML = `
+                <div>
+                    <img src="${book.image}" alt="${book.title}" class="book-img">
+                </div>
+                <div class="descp">
+                    <h2 class="book-name">${book.title}</h2>
+                    <h3 class="author">by ${book.author}</h3>
+                    <p class="info">${book.description}</p>
+                    <button type="submit">See the Book</button>
+                </div>
+            `;
+            bookContainer.appendChild(bookDiv);
+        });
+    </script>
 
 </body>
 </html>

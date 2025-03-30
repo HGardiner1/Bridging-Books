@@ -80,9 +80,9 @@ def get_cover(author: str, title: str, isbn: str, lib_id: int):
     title_encoded = parse.quote_plus(title)
     return f"https://hestia.jmrl.org/findit/Cover/Show?&size=large&recordid={lib_id}&source=Solr&isbn={isbn}&author={author_encoded}&title={title_encoded}"
 
-def build_json():
+def build_json(xml_txt_filename):
     final_json_dict = {'books':[]}
-    for xml_string in get_xmls("marcxml-results1.txt"):
+    for xml_string in get_xmls(xml_txt_filename):
         book_infos = get_book_infos(xml_string)
         for book in book_infos:
             book['tags'] = list(book['tags']) if 'tags' in book else None
@@ -91,7 +91,7 @@ def build_json():
     return final_json_dict
 
 if __name__ == '__main__':
-    j = build_json()
+    j = build_json("marcxml-result1.txt")
     with open("final_json.json", "w", encoding='utf-8') as file:
         file.write(json.dumps(j, indent=4))
     

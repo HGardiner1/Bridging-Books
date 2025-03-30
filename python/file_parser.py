@@ -90,6 +90,8 @@ def get_book_infos(xml) :
                 page_formatting_stats['checked_exceptions'].append(datafield[0].text)
             if datafield.attrib["tag"] == "100":
                 result["author"] = datafield[0].text
+            if datafield.attrib["tag"] == "520":
+                result["description"] = datafield[0].text
             if datafield.attrib["tag"] == "245":
                 result["title"] = titlecase(datafield[0].text)
             if datafield.attrib["tag"] == "020":
@@ -136,6 +138,7 @@ def build_json(xml_txt_filename):
             book['genre'] = list(book['genre']) if 'genre' in book else None
             book['isbn'] = book['isbn'] if 'isbn' in book else None
             book['page_count'] = book['page_count'] if 'page_count' in book else None
+            book['description'] = book['description'] if 'description' in book else None
             final_json_dict["books"].append(book)
     return final_json_dict
 
@@ -154,7 +157,7 @@ def complete_genre_list(book_list):
 def get_all_page_counts(book_list):
     return [book['page_count'] for book in book_list if book['page_count']]
 
-# if __name__ == '__main__':
-#     with open('main.json', 'w') as file:
-#         json.dump(build_jsons(['marcxml-results1.txt', 'marcxml-results2.txt', 'marcxml-results3.txt']), file, indent=4)
+if __name__ == '__main__':
+    with open('intermediate_media/main_updated.json', 'w') as file:
+        json.dump(build_jsons(['intermediate_media/marcxml-results1.txt', 'intermediate_media/marcxml-results2.txt', 'intermediate_media/marcxml-results3.txt']), file, indent=4)
     

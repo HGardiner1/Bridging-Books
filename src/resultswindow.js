@@ -98,9 +98,10 @@ function getBooksByTags(tags, bookList) {
     if (!book) {
         throw new Error("Invalid book object or missing lib_id");
     }
-
+    cleanTitle = book.title.replace(" :", "")
+    cleanTitle = cleanTitle.replace(" /", "")
     author_encoded = encodeURIComponent(book.author);
-    title_encoded = encodeURIComponent(book.title);
+    title_encoded = encodeURIComponent(cleanTitle);
     if (book.isbn) {
         return `https://hestia.jmrl.org/findit/Cover/Show?&size=large&recordid=${book.lib_id}&source=Solr&isbn=${book.isbn}&author=${author_encoded}&title=${title_encoded}`;
     }

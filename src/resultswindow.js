@@ -1,4 +1,4 @@
-TAGS_WE_WANT = ["Mystery"];
+TAGS_WE_WANT = ["african american"];
 GENRES_WE_WANT = [];
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -21,10 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
             let desc = book.description;
             let cut = 50; // set this to where you want to cut the description
 
-            if (desc.length > cut) {
+            if (desc && (desc.length > cut)) {
                 let lastSpace = desc.lastIndexOf(' ', cut);
                 desc = lastSpace > 0 ? desc.substring(0, lastSpace) + '...' : desc.substring(0, cut) + '...';
             }
+
+            cleanTitle = book.title.replace(" :", "")
+            cleanTitle = cleanTitle.replace(" /", "")
 
             card.innerHTML = `
             <div class="flex items-center p-4 rounded shoadow-lg">
@@ -37,9 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 <!-- Text area on the right, aligned to the right -->
                 <div class="text-left">
-                <h2 class="text-xl font-semibold mb-1">${book.title}</h2>
+                <h2 class="text-xl font-semibold mb-1">${cleanTitle}</h2>
                 <p class="text-sm text-gray-500 mb-2">by ${book.author}</p>
-                <p class="text-gray-700 mb-4">${desc}</p>
+                <p class="text-gray-700 mb-4">${desc ? desc : ""}</p>
                 <a
                     href="${generateLibUrl(book)}"
                     target="_blank"

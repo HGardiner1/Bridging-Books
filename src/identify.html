@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identity</title>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS CDN -->
+    <style>
+        body {
+            background-color: #cfe0e2; /* Light blue color */
+        }
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="navbar-container"></div>
+    <section class="relative flex flex-col items-center justify-center min-h-screen">
+        
+        <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-1/3">
+            <img src="images/bridgingbooksgirl.png" alt="Bridging Books Girl" class="w-full h-auto rounded-lg">
+        </div>
+
+        <section class="flex flex-col items-center justify-center min-h-screen">
+
+            <div class="text-center text-xl font-semibold mb-4">
+                Hi! It's nice to meet you! Tell me a bit about yourself.
+            </div>
+
+            <div id="identityForm" class="form-section active bg-white p-6 rounded-md shadow-lg w-80">
+                <div class="mb-4">
+                    <h2 class="text-lg font-semibold">What do you identify with?</h2>
+                </div>
+                <div class="space-y-4">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Asian</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Black or African American</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Caucasian</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Hispanic or Latino</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Native American</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Pacific Islander</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Other</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="readingLevelForm" class="form-section bg-white p-6 rounded-md shadow-lg w-80">
+                <div class="mb-4">
+                    <h2 class="text-lg font-semibold">What is your reading level?</h2>
+                </div>
+                <div class="space-y-4">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Beginner</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Intermediate</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Advanced</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="genresForm" class="form-section bg-white p-6 rounded-md shadow-lg w-80">
+                <div class="mb-4">
+                    <h2 class="text-lg font-semibold">What genres do you want to read?</h2>
+                </div>
+                <div class="space-y-4">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Mystery</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Science Fiction</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Documentary</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Romance</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span>Thriller</span>
+                    </label>
+                </div>
+            </div>
+
+            <a id="nextBtn" href="#" class="mt-6 mb-6 p-3 text-white rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" style="background-color: #3e80c4;">
+                Next
+            </a>
+
+        </section>
+
+    </section>
+
+    <script>
+        let currentForm = "identity"; 
+        
+        document.getElementById('nextBtn').addEventListener('click', function(event) {
+            event.preventDefault(); 
+            if (currentForm === "identity") {
+                document.getElementById('identityForm').classList.remove('active');
+                document.getElementById('readingLevelForm').classList.add('active');
+                currentForm = "readingLevel"; 
+                document.getElementById('nextBtn').textContent = "Next"; 
+            } else if (currentForm === "readingLevel") {
+                document.getElementById('readingLevelForm').classList.remove('active');
+                document.getElementById('genresForm').classList.add('active');
+                currentForm = "genres"; 
+                document.getElementById('nextBtn').textContent = "Submit"; 
+            } else {
+                window.location.href = "results.html"; 
+            }
+        });
+    </script>
+
+    <script src="navbar.js"></script> 
+   
+
+</body>
+</html>

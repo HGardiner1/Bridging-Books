@@ -39,12 +39,14 @@ def get_books_over_length(page_count: int, book_list) :
             result.append(book)
     return result
 
-with open("main_json.json") as file:
-    dict = json.load(file)
-    books = dict["books"]
 
-asian_american_books = []
-for tag in ASIAN_AMERICAN_TAGS:
-    asian_american_books.extend(get_books_by_tag(tag, books))
-for book in asian_american_books:
-    print(book["title"])
+if __name__ == "__main__":
+    with open("main.json") as file:
+        dict = json.load(file)
+        books = dict["books"]
+
+    asian_american_books = []
+    for tag in ASIAN_AMERICAN_TAGS:
+        asian_american_books.extend(get_books_by_tag(tag, books))
+    for book in asian_american_books:
+        print(book["title"])

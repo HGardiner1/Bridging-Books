@@ -2,6 +2,14 @@
 import json
 from file_parser import get_cover_from_book
 
+ASIAN_AMERICAN_TAGS = ["Asian American", "Asians", "Chinese Americans", "Japanese Americans", "Indian Americans", "Korean Americans"]
+AFRICAN_AMERICAN_TAGS = ["African American"]
+LATIN_AMERICAN_TAGS = ["Hispanic", "Latin American", "Mexican American", "Guatemalans", "Peruvians", "Brazilian American", "Puerto Ricans", "Cuban American", "Dominican Americans"]
+AMERICAN_INDIAN_TAGS = ["Indians of North America"]
+
+CHILDRENS_GENRES = ["Juvemile", "Picture Book"]
+YA_GENRES = ["Young Adult"]
+
 def get_books_by_tag(tag: str, book_list) :
     result = []
     for book in book_list:
@@ -24,12 +32,19 @@ def get_books_by_genre(genre: str, book_list) :
                 result.append(book)
     return result
 
-with open("main_json.json") as file:
+def get_books_over_length(page_count: int, book_list) :
+    result = []
+    for book in book_list:
+        if book["page_count"] and book["page_count"] >= page_count:
+            result.append(book)
+    return result
+
+with open("main.json") as file:
     dict = json.load(file)
     books = dict["books"]
 
-result = get_books_by_tag("FROG", books)
-print(result[0])
-
-# for frog_book in result:
-#      print(get_cover_from_book(frog_book))
+asian_american_books = []
+for tag in ASIAN_AMERICAN_TAGS:
+    asian_american_books.extend(get_books_by_tag(tag, books))
+for book in asian_american_books:
+    print(book["title"])

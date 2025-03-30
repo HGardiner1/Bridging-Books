@@ -54,12 +54,24 @@ def get_book_infos(xml) :
         for datafield in record:
             if not datafield.attrib:
                 continue
+            if datafield.attrib["tag"] == "300":
+                # example string "7 pages"
+                cleaned = datafield[0].text.replace("unnumbered ", '')
+                end_of_number_str = cleaned.split(" pages")[0]
+                
+                beginning_of_number_ind = end_of_number_str.rindex(" ")+1 if " " in end_of_number_str else 0
+
+                number_string = end_of_number_str[beginning_of_number_ind:]
+                if number_string.isnumeric():
+                    result["page_count"] = int(number_string)
             if datafield.attrib["tag"] == "100":
                 result["author"] = datafield[0].text
             if datafield.attrib["tag"] == "245":
                 result["title"] = titlecase(datafield[0].text)
             if datafield.attrib["tag"] == "020":
-                result["isbn"] = datafield[0].text.split(" ")[0]
+                for subfield in datafield:
+                    if subfield.attrib["code"] == "a":                    
+                        result["isbn"] = subfield.text.split(" ")[0]
             if datafield.attrib["tag"] == "650":
                 for subfield in datafield:
                     if subfield.attrib["code"] == "a":
@@ -86,28 +98,31 @@ def get_cover_from_book(book):
 
 def build_json(xml_txt_filename):
     final_json_dict = {'books':[]}
-    for xml_string in get_xmls(xml_txt_filename):
+    for i, xml_string in enumerate(get_xmls(xml_txt_filename)):
+        print(i)
         book_infos = get_book_infos(xml_string)
         for book in book_infos:
             book['tags'] = list(book['tags']) if 'tags' in book else None
             book['genre'] = list(book['genre']) if 'genre' in book else None
+            book['isbn'] = book['isbn'] if 'isbn' in book else None
+            book['page_count'] = book['page_count'] if 'page_count' in book else None
             final_json_dict["books"].append(book)
+    return final_json_dict
+
+def build_jsons(xml_txt_filenames):
+    final_json_dict = {'books':[]}
+    for xml_txt_filename in xml_txt_filenames:
+        final_json_dict['books'].extend(build_json(xml_txt_filename)['books'])
     return final_json_dict
 
 def complete_tag_list(book_list):
     return [tag for book in book_list if book['tags'] for tag in book['tags']]
 
+def complete_genre_list(book_list):
+    return [tag for book in book_list if book['genre'] for tag in book['genre']]
+
 
 if __name__ == '__main__':
-    # open final_json1, 2, 3 and merge them
-    # with open("final_json1.json", encoding='utf-8') as f1, open('final_json2.json', encoding='utf-8') as f2, open('final_json3.json', encoding='utf-8') as f3:
-    #     j1, j2, j3 = json.load(f1), json.load(f2), json.load(f3)
-    #     final_final_json = {'books': j1['books'] + j2['books'] + j3['books']}
-    #     with open("main_json.json", "w", encoding='utf-8') as file:
-    #         json.dump(final_final_json, file, indent=4)
-    # print(len(final_final_json['books']))
-    with open('main_json.json') as infile, open('words.txt', 'w', encoding='utf-8') as outfile:
-        data = json.load(infile)
-        books = data['books']
-        outfile.write('\n'.join(complete_tag_list(books)))
+    with open('main.json', 'w') as file:
+        json.dump(build_jsons(['marcxml-results1.txt', 'marcxml-results2.txt', 'marcxml-results3.txt']), file, indent=4)
     

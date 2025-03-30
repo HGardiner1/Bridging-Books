@@ -53,7 +53,6 @@ def get_book_info(xml) :
                             subjects.add(subfield.text)
                         if subfield.attrib["code"] == "v":
                             genres.add(subfield.text)
-
                 if datafield.attrib["tag"] == "907":
                     result["lib_id"] = datafield[0].text[2:9]
         if subjects:
@@ -81,6 +80,9 @@ if __name__ == '__main__':
     with open("samplexml.xml", "r", encoding="utf8") as f:
         content = f.read()
     books = get_book_info(content)
-    print(books[0:10])
+    print(books[10:20])
     book = books[9]
-    print(get_cover(author=book["author"], title=book["title"], isbn=book["isbn"], lib_id=book["lib_id"]))
+
+    for i in range(0,20):
+        book = books[i]
+        print(get_cover(author=book["author"], title=book["title"], isbn=book["isbn"], lib_id=book["lib_id"]))

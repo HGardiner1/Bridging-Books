@@ -39,7 +39,7 @@ def get_books_over_length(page_count: int, book_list) :
             result.append(book)
     return result
 
-with open("main.json") as file:
+with open("main_json.json") as file:
     dict = json.load(file)
     books = dict["books"]
 

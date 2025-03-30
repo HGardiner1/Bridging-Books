@@ -54,6 +54,12 @@ def get_book_infos(xml) :
         for datafield in record:
             if not datafield.attrib:
                 continue
+            if datafield.attrib["tag"] == "300":
+                # example string "7 pages"
+                before_pages_str = datafield[0].text.split(" pages")[-1]
+                space_before_number = before_pages_str.rindex(" ")
+                page_number = int(before_pages_str[space_before_number+1:])
+                result["page_count"] = page_number
             if datafield.attrib["tag"] == "100":
                 result["author"] = datafield[0].text
             if datafield.attrib["tag"] == "245":
@@ -96,6 +102,9 @@ def build_json(xml_txt_filename):
 def complete_tag_list(book_list):
     return [tag for book in book_list if book['tags'] for tag in book['tags']]
 
+def complete_genre_list(book_list):
+    return [tag for book in book_list if book['genre'] for tag in book['genre']]
+
 
 if __name__ == '__main__':
     # open final_json1, 2, 3 and merge them
@@ -105,8 +114,11 @@ if __name__ == '__main__':
     #     with open("main_json.json", "w", encoding='utf-8') as file:
     #         json.dump(final_final_json, file, indent=4)
     # print(len(final_final_json['books']))
-    with open('main_json.json') as infile, open('words.txt', 'w', encoding='utf-8') as outfile:
+    """command
+    wordcloud_cli --text words.txt --imagefile wordcloud.png --width 1920 --height 1080 --relative_scaling 0.25 --include_numbers
+    """
+    with open('main_json.json') as infile, open('genres.txt', 'w', encoding='utf-8') as outfile:
         data = json.load(infile)
         books = data['books']
-        outfile.write('\n'.join(complete_tag_list(books)))
+        outfile.write('\n'.join(complete_genre_list(books)))
     

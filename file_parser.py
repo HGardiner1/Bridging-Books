@@ -90,12 +90,12 @@ def build_json(xml_txt_filename):
             final_json_dict["books"].append(book)
     return final_json_dict
 
-if __name__ == '__main__':
-    # open final_json1, 2, 3 and merge them
-    with open("final_json1.json", encoding='utf-8') as f1, open('final_json2.json', encoding='utf-8') as f2, open('final_json3.json', encoding='utf-8') as f3:
-        j1, j2, j3 = json.load(f1), json.load(f2), json.load(f3)
-        final_final_json = {'books': j1['books'] + j2['books'] + j3['books']}
-        with open("main_json.json", "w", encoding='utf-8') as file:
-            json.dump(final_final_json, file, indent=4)
-    print(len(final_final_json['books']))
+# if __name__ == '__main__':
+#     # open final_json1, 2, 3 and merge them
+#     with open("final_json1.json", encoding='utf-8') as f1, open('final_json2.json', encoding='utf-8') as f2, open('final_json3.json', encoding='utf-8') as f3:
+#         j1, j2, j3 = json.load(f1), json.load(f2), json.load(f3)
+#         final_final_json = {'books': j1['books'] + j2['books'] + j3['books']}
+#         with open("main_json.json", "w", encoding='utf-8') as file:
+#             json.dump(final_final_json, file, indent=4)
+#     print(len(final_final_json['books']))
     

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <!-- Loading spinner container -->
+  <div id="loading-container" class="flex items-center justify-center p-4">
+    <div class="mr-2 flex items-center">
+      <!-- Spinner (just a circle with top border transparent) -->
+      <div class="border-4 border-blue-500 border-t-transparent border-solid rounded-full h-8 w-8 animate-spin mr-2"></div>
+      <span class="font-semibold text-lg">Loading books!</span>
+    </div>
+  </div>
+    <div class="max-w-7xl mx-auto p-4">
+        <h1 id="title" class="text-3xl font-bold text-center mb-6"></h1>
+        <!-- Grid container to hold all the book cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="book-container">
+          <!-- Book cards will be injected here via JavaScript -->
+        </div>
+      </div>
+</body>
+<script src="resultswindow.js"></script>
+</html>

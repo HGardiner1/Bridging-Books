@@ -1,5 +1,5 @@
 TAGS_WE_WANT = ["african american"];
-GENRES_WE_WANT = [];
+GENRES_WE_WANT = ["fiction"];
 
 document.addEventListener('DOMContentLoaded', function() {
     // Use fetch to load the JSON file

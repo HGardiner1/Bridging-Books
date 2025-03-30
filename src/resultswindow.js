@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="flex items-center p-4 rounded shoadow-lg">
                 <!-- Image with some margin to ensure it's not touching the border -->
                 <img
-                src="${10}"
+                src="${generateImageUrl(book)}"
                 alt="${book.title}"
                 class="w-32 h-auto object-cover mr-4 rounded shadow-lg transform transition-transform duration-300 hover:scale-[1.02]"
                 />
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p class="text-sm text-gray-500 mb-2">by ${book.author}</p>
                 <p class="text-gray-700 mb-4">${desc}</p>
                 <a
-                    href="${10}"
+                    href="${generateLibUrl(book)}"
                     target="_blank"
                     class="inline-block px-4 py-2 bg-indigo-500 text-white text-sm rounded active:bg-indigo-600 transition-colors transform transition-transform duration-300 hover:scale-[1.02]"
                 >
@@ -84,4 +84,27 @@ function getBooksByTags(tags, bookList) {
   function getBooksOverLength(pageCount, bookList) {
     return bookList.filter(book => book.page_count && book.page_count >= pageCount);
   }
-  
+
+  function generateImageUrl(book) {
+    if (!book) {
+        throw new Error("Invalid book object or missing lib_id");
+    }
+
+    author_encoded = encodeURIComponent(book.author);
+    title_encoded = encodeURIComponent(book.title);
+    if (book.isbn) {
+        return `https://hestia.jmrl.org/findit/Cover/Show?&size=large&recordid=${book.lib_id}&source=Solr&isbn=${book.isbn}&author=${author_encoded}&title=${title_encoded}`;
+    }
+    else {
+        return `https://hestia.jmrl.org/findit/Cover/Show?&size=large&recordid=${book.lib_id}&source=Solr&author=${author_encoded}&title=${title_encoded}`;
+    }
+}
+
+function generateLibUrl(book) {
+    if (!book) {
+      throw new Error("Invalid book object or missing lib_id");
+    }
+    
+    const baseUrl = "https://hestia.jmrl.org/findit/Record/";
+    return `${baseUrl}${encodeURIComponent(book.lib_id)}`;
+}

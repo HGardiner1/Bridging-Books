@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
-from titlecase import titlecase
+from urllib import parse
+from titlecase import titlecase # type: ignore
 import re
 
 def parse_file(filename, start):
@@ -32,10 +33,12 @@ def get_xmls(text_xml_filename):
 
 def get_book_info(xml) :
     root = ET.fromstring(xml)
+    books = []
     #Get each book entry
     for record in root:
         result = {}
         subjects = set()
+        genres = set()
         for datafield in record:
             if datafield.attrib:
                 if datafield.attrib["tag"] == "100":
@@ -43,13 +46,27 @@ def get_book_info(xml) :
                 if datafield.attrib["tag"] == "245":
                     result["title"] = titlecase(datafield[0].text)
                 if datafield.attrib["tag"] == "020":
-                    result["isbn"] = datafield[0].text
+                    result["isbn"] = datafield[0].text.split(" ")[0]
                 if datafield.attrib["tag"] == "650":
-                    subjects.add(datafield[0].text)
-        result["tags"] = subjects
-        print(result)
+                    for subfield in datafield:
+                        if subfield.attrib["code"] == "a":
+                            subjects.add(subfield.text)
+                        if subfield.attrib["code"] == "v":
+                            genres.add(subfield.text)
 
-    
+                if datafield.attrib["tag"] == "907":
+                    result["lib_id"] = datafield[0].text[2:9]
+        if subjects:
+            result["tags"] = subjects
+        if genres:
+            result["genre"] = genres
+        books.append(result)
+    return books
+
+def get_cover(author: str, title: str, isbn: str, lib_id: int):
+    author_encoded = parse.quote_plus(author)
+    title_encoded = parse.quote_plus(title)
+    return f"https://hestia.jmrl.org/findit/Cover/Show?&size=large&recordid={lib_id}&source=Solr&isbn={isbn}&author={author_encoded}&title={title_encoded}"
 
 if __name__ == '__main__':
     # Example usage
@@ -63,4 +80,7 @@ if __name__ == '__main__':
     #     f.write(s)
     with open("samplexml.xml", "r", encoding="utf8") as f:
         content = f.read()
-    get_book_info(content)
+    books = get_book_info(content)
+    print(books[0:10])
+    book = books[9]
+    print(get_cover(author=book["author"], title=book["title"], isbn=book["isbn"], lib_id=book["lib_id"]))

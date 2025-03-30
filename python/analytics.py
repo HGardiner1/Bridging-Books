@@ -9,6 +9,11 @@ AMERICAN_INDIAN_TAGS = ["Indians of North America"]
 
 CHILDRENS_GENRES = ["Juvemile", "Picture Book"]
 YA_GENRES = ["Young Adult"]
+ADULT_BOOK_LENGTH = 150
+
+ROMANCE_TAGS = ["Romance", "Relationship"]
+MYSTERY_TAGS = ["Mystery", "Thriller"]
+
 
 def get_books_by_tag(tag: str, book_list) :
     result = []
@@ -43,8 +48,15 @@ with open("main_json.json") as file:
     dict = json.load(file)
     books = dict["books"]
 
-asian_american_books = []
+sample_books = []
+mystery_sample_books = []
 for tag in ASIAN_AMERICAN_TAGS:
-    asian_american_books.extend(get_books_by_tag(tag, books))
-for book in asian_american_books:
+    sample_books.extend(get_books_by_tag(tag, books))
+
+for tag in MYSTERY_TAGS:
+    mystery_sample_books.extend(get_books_by_tag(tag, sample_books))
+
+print(len(mystery_sample_books))
+mystery_sample_books = get_books_over_length(150, mystery_sample_books)
+for book in mystery_sample_books:
     print(book["title"])

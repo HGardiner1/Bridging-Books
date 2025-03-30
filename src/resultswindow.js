@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let books = booksData.books;  // Make sure books is declared and booksData structure is correct
         books = getBooksByTags(TAGS_WE_WANT, books);
         books = getBooksByGenres(GENRES_WE_WANT, books);
-        books = books.slice(0, 10);
+        books = books.slice(0, 20);
         books.forEach(book => {
             // Create a card container
             const card = document.createElement('div');

@@ -1,5 +1,5 @@
 TAGS_WE_WANT = ["Mystery"];
-GENRES_WE_WANT = ["Fiction"];
+GENRES_WE_WANT = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     // Use fetch to load the JSON file
@@ -64,6 +64,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function getBooksByTags(tags, bookList) {
+    if (tags.length == 0) {
+        return bookList
+    }
     const lowerTags = tags.map(tag => tag.toLowerCase());
     return bookList.filter(book => 
       book.tags && book.tags.some(bookTag => 
@@ -73,6 +76,9 @@ function getBooksByTags(tags, bookList) {
   }
   
   function getBooksByGenres(genres, bookList) {
+    if (genres.length == 0) {
+        return bookList
+    }
     const lowerGenres = genres.map(genre => genre.toLowerCase());
     return bookList.filter(book => 
       book.genre && book.genre.some(bookGenre => 

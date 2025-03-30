@@ -38,7 +38,7 @@
     </style>
 </head>
 <body>
-
+    <script src="resultswindow.js"></script>
     <div id="navbar-container"></div>
     <script src="navbar.js"></script> 
 
@@ -50,7 +50,6 @@
         let books = [];
         localStorage.setItem('books', JSON.stringify(books));
         const retrievedBooks = JSON.parse(localStorage.getItem('books'));
-
 
         const colors = ['#cbb5e2', '#fbadaf', '#a4e0eb', '#fdca95'];
         const bookContainer = document.getElementById('bookContainer');

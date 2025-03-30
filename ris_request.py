@@ -16,13 +16,13 @@ headers = {
     "sec-fetch-site": "same-origin",
     "x-requested-with": "XMLHttpRequest"
 }
-start = 1_500_000
+start = 750_000
 # Print the response
-while start < 1_750_000:
+while start < 1_000_000:
     # Data
     data = {
         'f': 'RIS',
-        'i[]': [f'Solr|{start+i}' for i in range(354)]
+        'i[]': [f'Solr|0{start+i}' for i in range(354)]
     }
 
     # Send POST request

@@ -1,0 +1,16 @@
+<!-- compress.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Compress JSON</title>
+  <!-- Include fflate from a CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/fflate/umd/index.min.js"></script>
+  <script src="compress.js" defer></script>
+</head>
+<body>
+  <h2>Compress JSON File</h2>
+  <input type="file" id="jsonInput" accept=".json" />
+  <button onclick="compressJsonFile()">Compress & Download</button>
+</body>
+</html>

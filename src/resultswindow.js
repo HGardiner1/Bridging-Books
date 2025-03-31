@@ -11,8 +11,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const bookContainer = document.getElementById('book-container');
     const loadingElement = document.getElementById('loading-container');
     title = document.getElementById('title');
-    fetch('../main.json')  // Adjust the path if necessary to point to the correct folder
-      .then(response => response.json())
+    fetch('../main.fzip')  // Adjust the path if necessary to point to the correct folder
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.arrayBuffer();  // Get the binary data of the fzip file
+      })
+      .then(buffer => {
+          console.log("got compressed data");
+          const compressedData = new Uint8Array(buffer);
+          // Decompress the data using fflate
+          const decompressedData = fflate.inflateSync (compressedData);  // Using unzlibSync for zlib-compressed data
+
+          // Convert the decompressed data from Uint8Array back to a string
+          const textDecoder = new TextDecoder();
+          const jsonText = textDecoder.decode(decompressedData);
+
+          // Parse the JSON
+          return JSON.parse(jsonText);
+      })
       .then(booksData => {  // Use consistent variable name (booksData)
         let books = booksData.books;  // Make sure books is declared and booksData structure is correct
         books = getBooksByTags(TAGS_WE_WANT, books);
@@ -24,12 +40,12 @@ document.addEventListener('DOMContentLoaded', function() {
             card.className = "bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow";
 
             let desc = book.description;
-            let cut = 50; // set this to where you want to cut the description
+            // let cut = 50; // set this to where you want to cut the description
 
-            if (desc && (desc.length > cut)) {
-                let lastSpace = desc.lastIndexOf(' ', cut);
-                desc = lastSpace > 0 ? desc.substring(0, lastSpace) + '...' : desc.substring(0, cut) + '...';
-            }
+            // if (desc && (desc.length > cut)) {
+            //     let lastSpace = desc.lastIndexOf(' ', cut);
+            //     desc = lastSpace > 0 ? desc.substring(0, lastSpace) + '...' : desc.substring(0, cut) + '...';
+            // }
 
             cleanTitle = book.title.replace(" :", "")
             cleanTitle = cleanTitle.replace(" /", "")

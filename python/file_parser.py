@@ -154,7 +154,20 @@ def complete_genre_list(book_list):
 def get_all_page_counts(book_list):
     return [book['page_count'] for book in book_list if book['page_count']]
 
-# if __name__ == '__main__':
-#     with open('main.json', 'w') as file:
-#         json.dump(build_jsons(['marcxml-results1.txt', 'marcxml-results2.txt', 'marcxml-results3.txt']), file, indent=4)
+def trim_descs(json_data, word_limit=50):
+    for i, book in enumerate(json_data['books']):
+        desc = book['description']
+        if not desc or len(desc) <= word_limit:
+            continue
+        last_space = desc.rfind(' ', 0, word_limit)
+        dots = " ..."
+        desc = desc[:last_space] + dots if last_space > 0 else desc[:word_limit] + dots
+        json_data['books'][i]['description'] = desc
+    return json_data
+
+if __name__ == '__main__':
+    with open('main.json', 'r', encoding='utf-8') as infile, open('main_trimmed_descs.json', 'w', encoding='utf-8') as outfile:
+        data = json.load(infile)
+        trimmed = trim_descs(data)
+        json.dump(trimmed, outfile, indent=4, ensure_ascii=False)
     

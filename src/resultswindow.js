@@ -1,4 +1,3 @@
-// const hosting_url = "https://drive.usercontent.google.com/download?id=1nfYv4TtohLoYH-QVBpSGP0unbT6k6xCm&id=xxxxxx&confirm=yes";
 document.addEventListener('DOMContentLoaded', function() {
     // Use fetch to load the JSON file
 
@@ -11,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const bookContainer = document.getElementById('book-container');
     const loadingElement = document.getElementById('loading-container');
     title = document.getElementById('title');
-    fetch('../main.fzip')  // Adjust the path if necessary to point to the correct folder
+    fetch('media/main.fzip')  // Adjust the path if necessary to point to the correct folder
       .then(response => {
         if (!response.ok) throw new Error('Network response was not ok');
         return response.arrayBuffer();  // Get the binary data of the fzip file

@@ -1,5 +1,8 @@
 *.txt
 *.pyc
 *.json
+*.7z
 intermediate_media/
 file_hosting/
+__pycache__/
+test/

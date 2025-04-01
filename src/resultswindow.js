@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Hide the loading spinner once fetching is complete
         loadingElement.style.display = 'none';
         document.getElementById("back-button").classList.remove("hidden");
-        title.innerHTML = "Your Book Becommendations:";
+        title.innerHTML = "Your Book Recommendations:";
     });
 });
 
